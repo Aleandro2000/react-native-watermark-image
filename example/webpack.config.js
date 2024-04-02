@@ -8,6 +8,12 @@ const node_modules = path.join(__dirname, 'node_modules');
 module.exports = async function (env, argv) {
   const config = await createExpoWebpackConfigAsync(env, argv);
 
+  // Add resolve fallback for the 'crypto' module
+  config.resolve.fallback = {
+    ...config.resolve.fallback,
+    crypto: require.resolve('crypto-browserify'),
+  };
+
   config.module.rules.push({
     test: /\.(js|jsx|ts|tsx)$/,
     include: path.resolve(root, 'src'),
